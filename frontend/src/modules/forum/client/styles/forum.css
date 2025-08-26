@@ -1,0 +1,65 @@
+.hero_00 {
+    align-items: stretch;
+    display: block;
+    position: absolute;
+    inset: 0%;
+    will-change: transform;
+    /* transform-style: preserve-3d;
+    backface-visibility: hidden;
+    perspective: 1000px; */
+  }
+  
+  /* Optimize image rendering for Framer Motion */
+  .hero_00 img {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Smooth scroll container */
+  .parallax-container {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Performance optimizations for Framer Motion */
+  .hero_00 * {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  /* Enhanced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .hero_00 {
+      transition: none !important;
+    }
+  
+    .hero_00 * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Custom scrollbar for better UX */
+  .parallax-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .parallax-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  .parallax-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #744dd0, #fe7f70);
+    border-radius: 4px;
+  }
+  
+  .parallax-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #fe7f70, #744dd0);
+  }
+  
