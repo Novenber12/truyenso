@@ -7,6 +7,7 @@ import TopDonate from './components/SectionNoFramer/TopDonate'
 import FAQSection from './components/SectionNoFramer/FAQSection'
 import Contact from './components/SectionNoFramer/Contact'
 import AboutUs from './components/AboutUs'
+import EventSection from './components/Event'
 
 const MainForum = () => {
   return (
@@ -15,6 +16,7 @@ const MainForum = () => {
         {/* <BannerForum /> */}
         <BannerHome/>
         <Introduce/>
+        <EventSection/>
         <BenefitsSection/>
         <TopDonate/>
         {/* <AboutUs/> */}

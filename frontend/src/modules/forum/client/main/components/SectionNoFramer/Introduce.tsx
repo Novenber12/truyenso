@@ -193,7 +193,7 @@ const Introduce = () => {
             </motion.div>
         </div>
         {/* Lớp phủ chuyển màu */}
-        <div className="-mt-[260px] w-full h-72 md:h-48 bg-gradient-to-b from-black via-transparent to-white pointer-events-none" aria-hidden="true"></div>
+        <div className="-mt-[260px] w-full h-72 md:h-48 bg-gradient-to-b from-black via-transparent to-[#e0f2fe] pointer-events-none" aria-hidden="true"></div>
     </section>
   )
 }

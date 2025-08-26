@@ -50,130 +50,102 @@ const TopDonate = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
           {/* QR + Call to action */}
-          <div className="flex flex-col items-center justify-center bg-white/70 border border-[#E5E7EB] rounded-2xl shadow-lg px-8 py-12 mb-8 md:mb-0 relative overflow-hidden">
-            <div className="mb-6">
+          <div className="relative flex flex-col items-center justify-center bg-white/80 border-4 border-[#1b263b] rounded-3xl shadow-[6px_6px_0px_#1b263b] px-8 py-12 mb-8 md:mb-0 ">
+            {/* Accent comic dots */}
+            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle,_#1b263b_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none" />
+
+            {/* QR image */}
+            <div className="mb-6 relative">
               <Image
                 src={QR_IMAGE}
                 alt="QR ủng hộ"
                 width={180}
                 height={180}
-                className="rounded-xl border-4 border-[#D4AF37]/40 shadow-lg bg-white"
-                style={{
-                  boxShadow: '0 0 0 8px #FFD70033',
-                }}
+                className="rounded-xl border-4 border-[#D4AF37] shadow-[4px_4px_0px_#1b263b] bg-white"
               />
+              {/* Comic-style highlight burst */}
+              <div className="absolute -z-10 inset-0 flex items-center justify-center">
+                <div className="w-48 h-48 rounded-full bg-[#FFD700]/30 blur-2xl" />
+              </div>
             </div>
-            <h3 className="font-playfair text-2xl md:text-3xl font-semibold text-[#1b263b] mb-2 text-center">
-              Ủng hộ cho dự án
+
+            {/* Title */}
+            <h3 className="font-comic text-3xl md:text-4xl font-extrabold text-[#1b263b] mb-3 text-center relative z-10">
+              Ủng hộ cho dự án!
             </h3>
-            <p className="font-noto text-base md:text-lg text-[#3C4A3E] text-center mb-4">
+
+            {/* Description */}
+            <p className="font-noto text-base md:text-lg text-[#3C4A3E] text-center mb-5 leading-relaxed">
               Quét mã QR để đóng góp, giúp chúng mình duy trì và phát triển nền tảng.<br />
-              <span className="inline-block mt-2 font-playfair text-[#D4AF37] text-lg tracking-wide">
-                Mỗi đóng góp đều là nguồn động viên quý giá!
+              <span className="inline-block mt-3 font-comic text-[#D9480F] text-lg md:text-xl font-bold tracking-wider">
+                Mỗi đóng góp đều là sức mạnh siêu năng lực!
               </span>
             </p>
-            <div className="w-12 h-1 rounded bg-[#D4AF37]/40 mt-4 mb-2" />
-            {/* Artistic accent */}
+
+            {/* Divider comic line */}
+            <div className="w-16 h-1 bg-[#1b263b] rounded-full mb-4 shadow-[2px_2px_0px_#D4AF37]" />
+
+            {/* Comic bubble accent */}
             <div
-              className="absolute left-0 right-0 bottom-0 pointer-events-none"
-              aria-hidden
+              className="absolute -top-4 right-6 bg-[#fe7f70] text-white font-comic text-sm px-3 py-1 rounded-full shadow-[2px_2px_0px_#1b263b] rotate-3"
             >
-              <div
-                className="mx-auto w-2/3 h-10 rounded-t-full"
-                style={{
-                  background: 'linear-gradient(90deg, #744dd0, #fe7f70)',
-                  opacity: 0.25,
-                  filter: 'blur(8px)',
-                }}
-              />
+              WOW!
+            </div>
+            <div
+              className="absolute bottom-4 left-6 bg-[#744dd0] text-white font-comic text-sm px-3 py-1 rounded-full shadow-[2px_2px_0px_#1b263b] -rotate-3"
+            >
+              THANK YOU ❤️
             </div>
           </div>
+
           {/* Top donors */}
           <div className="flex flex-col gap-8">
             {donors.map((donor, idx) => (
               <div
-                key={donor.name}
-                className={`
-                  relative flex flex-col md:flex-row items-center md:items-start text-center md:text-left
-                  bg-white/80 border border-[#E5E7EB] rounded-2xl shadow-xl
-                  px-8 py-8
-                  transition-all duration-300
-                  hover:scale-105 hover:shadow-2xl
-                  group
-                  ${idx === 0 ? 'z-20' : 'z-10'}
-                `}
-                style={{
-                  boxShadow: idx === 0
-                    ? '0 8px 32px 0 rgba(212,175,55,0.18)'
-                    : undefined,
-                  borderColor: idx === 0 ? '#D4AF37' : undefined,
-                }}
-              >
-                <div className="relative mb-4 md:mb-0 md:mr-6 flex-shrink-0">
-                  <Image
-                    src={donor.avatar}
-                    alt={donor.name}
-                    className={`
-                      w-20 h-20 md:w-24 md:h-24 rounded-full border-4
-                      ${idx === 0
-                        ? 'border-[#D4AF37]/80 shadow-lg'
-                        : 'border-[#4B2E83]/30'}
-                      object-cover
-                      group-hover:scale-110 transition-transform duration-300
-                    `}
-                    width={100}
-                    height={100}
-                    style={{
-                      boxShadow: idx === 0
-                        ? '0 0 0 6px #FFD70099'
-                        : undefined,
-                    }}
-                  />
-                  {idx === 0 && (
-                    <span className="absolute -top-3 -right-3 bg-[#D4AF37]/90 text-white font-bold px-3 py-1 rounded-full text-xs shadow-md font-playfair tracking-wide">
-                      #1
-                    </span>
-                  )}
-                </div>
-                <div className="flex-1 flex flex-col items-center md:items-start">
-                  <h3 className="font-playfair text-xl md:text-2xl font-semibold text-[#1b263b] mb-1">
-                    {donor.name}
-                  </h3>
-                  <div className="flex items-center justify-center md:justify-start mb-2">
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" className="mr-1">
-                      <path
-                        d="M12 2l2.39 6.94h7.29l-5.89 4.28 2.39 6.94L12 15.88l-5.89 4.28 2.39-6.94-5.89-4.28h7.29L12 2z"
-                        fill="#D4AF37"
-                        fillOpacity="0.7"
-                      />
-                    </svg>
-                    <span className="font-bold text-lg text-[#D4AF37] font-playfair">
-                      {donor.amount.toLocaleString('vi-VN')}₫
-                    </span>
-                  </div>
-                  <p className="font-noto text-base text-[#3C4A3E] italic mb-2">
-                    “{donor.message}”
-                  </p>
-                  <div className="w-10 h-1 rounded bg-[#4B2E83]/20 mt-2" />
+              key={donor.name}
+              className="
+                relative flex items-center gap-4 p-6
+                bg-white border-4 border-black rounded-xl
+                shadow-[4px_4px_0px_#000] hover:shadow-[6px_6px_0px_#000]
+                transition-all duration-300
+                transform hover:-translate-y-1
+              "
+              style={{
+                backgroundColor: idx === 0 ? "#FFF4CC" : "#F8F8F9",
+                transform: idx === 0 ? "rotate(-1deg)" : "rotate(1deg)",
+              }}
+            >
+              {/* Avatar */}
+              <div className="relative">
+                <Image
+                  src={donor.avatar}
+                  alt={donor.name}
+                  width={80}
+                  height={80}
+                  className="rounded-full border-4 border-black"
+                />
+                {idx === 0 && (
+                  <span className="absolute -top-3 -right-3 bg-pink-500 text-white px-2 py-1 text-xs font-bold rounded-full shadow-md">
+                    #1
+                  </span>
+                )}
+              </div>
+            
+              {/* Info */}
+              <div className="flex-1">
+                <h3 className="font-bold text-lg text-black">{donor.name}</h3>
+                <p className="inline-block bg-yellow-200 border-2 border-black px-3 py-1 rounded-lg mt-1 text-sm italic">
+                  “{donor.message}”
+                </p>
+                <div className="mt-2 font-extrabold text-pink-600">
+                  {donor.amount.toLocaleString('vi-VN')}₫
                 </div>
               </div>
+            </div>
+            
             ))}
           </div>
         </div>
-        {/* Subtle gold parallax accent for the whole section */}
-        {/* <div
-          className="absolute left-0 right-0 bottom-0 pointer-events-none"
-          aria-hidden
-        >
-          <div
-            className="mx-auto w-2/3 h-16 rounded-t-full"
-            style={{
-              background: 'linear-gradient(90deg, #744dd0, #fe7f70)',
-              opacity: 0.5,
-              filter: 'blur(8px)',
-            }}
-          />
-        </div> */}
       </div>
     </section>
   );
