@@ -8,6 +8,7 @@ import FAQSection from './components/SectionNoFramer/FAQSection'
 import Contact from './components/SectionNoFramer/Contact'
 import AboutUs from './components/AboutUs'
 import EventSection from './components/Event'
+import PostsSection from './components/PostsSection'
 
 const MainForum = () => {
   return (
@@ -19,8 +20,8 @@ const MainForum = () => {
         <EventSection/>
         <BenefitsSection/>
         <TopDonate/>
-        {/* <AboutUs/> */}
         <AboutUs/>
+        <PostsSection/>
         <FAQSection/>
         <Contact/>
       </div>

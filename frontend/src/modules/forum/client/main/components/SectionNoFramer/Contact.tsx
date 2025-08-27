@@ -135,8 +135,8 @@ const Contact = () => {
     </form>
   </div>
 
-  {/* Wave */}
-  <div className='z-30 absolute left-0 bottom-0 w-full'>
+      {/* Wave */}
+      <div className='z-30 absolute left-0 bottom-0 w-full'>
         <svg className='w-full h-full mb-[-7px] min-h-[70px] max-h-[100px]' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 24 150 28' preserveAspectRatio='none' shapeRendering={'auto'}>
           <defs>
             {/* Softer, more gentle wave path */}
@@ -157,7 +157,6 @@ const Contact = () => {
         </svg>
       </div>
     </section>
-
   )
 }
 

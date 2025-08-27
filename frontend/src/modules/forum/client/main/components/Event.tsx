@@ -3,7 +3,7 @@ import React from 'react'
 
 const EventSection = () => {
   return (
-    <section className="relative bg-gradient-to-b from-sky-100 via-purple-50 to-orange-50 py-20 pb-20 min-h-screen">
+    <section className="relative bg-gradient-to-b from-sky-100 via-purple-50 to-orange-50 pt-20 min-h-screen">
     {/* Winding Road SVG Background */}
     <svg
       className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl h-full z-0"
@@ -211,12 +211,14 @@ const EventSection = () => {
 
         <div className="flex-1 relative">
           <div className="relative transform hover:scale-105 transition-transform duration-300">
-            <img
-              src="/img/img/gold-trophy.png"
+            <Image
+              src="/img/img/event_05.webp"
               alt="Giải thưởng"
+              width={300}
+              height={300}
               className="w-80 h-80 object-contain border-6 border-yellow-500 rounded-xl shadow-[0_0_40px_#eab308]/70"
             />
-            <div className="absolute -top-4 -right-4 bg-green-400 text-white font-black text-lg px-4 py-2 rounded-full border-3 border-white rotate-12 shadow-lg animate-pulse">
+            <div className="absolute -top-4 -right-4 bg-green-400 text-white font-black text-lg px-4 py-2 rounded-full border-3 border-white rotate-12 shadow-lg">
               CHIẾN THẮNG!
             </div>
           </div>
@@ -230,7 +232,7 @@ const EventSection = () => {
                 💰 Tổng giá trị giải thưởng:
                 <br />
                 <span className="text-4xl font-black text-red-600 bg-yellow-300 px-3 py-1 rounded-lg inline-block mt-2 transform rotate-1">
-                  5.000.000₫
+                  1.000.000₫
                 </span>
               </p>
               <p className="text-lg text-gray-700 font-medium mt-4">
@@ -242,7 +244,14 @@ const EventSection = () => {
         </div>
       </div>
     </div>
-  </section>  
+
+    {/* Đường phân cách */}
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute bottom-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-[#F8F9FA]"
+    />
+
+    </section>  
   )
 }
 

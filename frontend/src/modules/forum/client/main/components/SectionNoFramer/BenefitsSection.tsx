@@ -3,7 +3,7 @@ import CircularGallery from '../ReactBits/CircularGallery'
 
 const BenefitsSection = () => {
   return (
-    <section className='bg-white py-7'>
+    <section className="relative py-3 md:py-4 bg-[#F8F9FA] overflow-hidden">
         <div className='mt-20 max-w-7xl mx-auto px-4 text-start'>
             <h3 className="py-5 text-4xl md:text-5xl font-extrabold mb-6">
               Đến với <span className="italic bg-gradient-to-r from-[#744dd0] to-[#fe7f70] bg-clip-text text-transparent">Truyenso.vn</span>, bạn sẽ có gì?
