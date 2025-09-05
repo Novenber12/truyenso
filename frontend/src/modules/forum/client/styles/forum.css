@@ -1,112 +1,209 @@
 .hero_00 {
-    align-items: stretch;
-    display: block;
-    position: absolute;
-    inset: 0%;
-    will-change: transform;
-    /* transform-style: preserve-3d;
+  align-items: stretch;
+  display: block;
+  position: absolute;
+  inset: 0%;
+  will-change: transform;
+  /* transform-style: preserve-3d;
     backface-visibility: hidden;
     perspective: 1000px; */
+}
+
+/* Optimize image rendering for Framer Motion */
+.hero_00 img {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Smooth scroll container */
+.parallax-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Performance optimizations for Framer Motion */
+.hero_00 * {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Enhanced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .hero_00 {
+    transition: none !important;
   }
-  
-  /* Optimize image rendering for Framer Motion */
-  .hero_00 img {
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-  }
-  
-  /* Smooth scroll container */
-  .parallax-container {
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-  }
-  
-  /* Performance optimizations for Framer Motion */
+
   .hero_00 * {
-    transform: translateZ(0);
-    backface-visibility: hidden;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-  
-  /* Enhanced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    .hero_00 {
-      transition: none !important;
-    }
-  
-    .hero_00 * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-  
-  /* Custom scrollbar for better UX */
-  .parallax-container::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .parallax-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-  }
-  
-  .parallax-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #744dd0, #fe7f70);
-    border-radius: 4px;
-  }
-  
-  .parallax-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #fe7f70, #744dd0);
-  }
-  
-  @keyframes spin-infinite {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  .animate-spin-slow {
-    animation: spin-infinite 18s linear infinite;
-  }
+}
 
-  .animate-fade-in-slow {
-    animation: fadeIn 2.5s ease-in;
-  }
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  .animate-float-delayed {
-    animation: float 6s ease-in-out infinite 2s;
-  }
-  .animate-pulse-slow {
-    animation: pulse 4s ease-in-out infinite;
-  }
-  .animate-bounce-slow {
-    animation: bounce 3s ease-in-out infinite;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(12deg); }
-    50% { transform: translateY(-20px) rotate(12deg); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.4; }
-  }
-  @keyframes bounce {
-    0%, 100% { transform: rotate(12deg) translateY(0px); }
-    50% { transform: rotate(12deg) translateY(-10px); }
-  }
+/* Custom scrollbar for better UX */
+.parallax-container::-webkit-scrollbar {
+  width: 8px;
+}
 
-  .parallax use {
-    mix-blend-mode: multiply;
+.parallax-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.parallax-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #744dd0, #fe7f70);
+  border-radius: 4px;
+}
+
+.parallax-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fe7f70, #744dd0);
+}
+
+@keyframes spin-infinite {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-infinite 18s linear infinite;
+}
+
+.animate-fade-in-slow {
+  animation: fadeIn 2.5s ease-in;
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite 2s;
+}
+.animate-pulse-slow {
+  animation: pulse 4s ease-in-out infinite;
+}
+.animate-bounce-slow {
+  animation: bounce 3s ease-in-out infinite;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(12deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(12deg);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: rotate(12deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(12deg) translateY(-10px);
+  }
+}
+
+.parallax use {
+  mix-blend-mode: multiply;
+}
+
+.book{
+  /* border: 1px solid black; */
+  position: relative;
+  width: 350px;
+  height: 500px;
+  transition: transform 1s;
+}
+
+.paper{
+  /* border: 1px solid red; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  perspective: 1500px;
+  border-radius: 10px;
+}
+
+.front,
+.back{
+  background: white;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+
+  transform-origin: left;
+  transition: transform 1s;
+}
+
+.front{
+  z-index: 1;
+  backface-visibility: hidden;
+  /* border-left: 3px solid powderblue; */
+}
+.back{
+  z-index: 0;
+}
+
+.front-content,
+.back-content{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+}
+
+button{
+  transition: all 1s;
+}
+
+/* Điều chỉnh lại phần back để không bị rotate khi flipped*/
+.back-content{
+  transform: rotateY(180deg);
+}
+
+/* Hiệu ứng flip paper */
+.flipped .front,
+.flipped .back{
+  transform: rotateY(-180deg);
+}
+
+
+/* Thứ tự xếp chồng paper */
+#p1{
+  z-index: 3;
+}
+#p2{
+  z-index: 2;
+}
+#p3{
+  z-index: 1;
+}

@@ -150,9 +150,9 @@ const Contact = () => {
                 v44h-400z"
             />
           </defs>
-          <g className='parallax'>
+          <g className='parallaxx'>
             <use xlinkHref="#gentle-wave" x={'48'} y={'0'} fill='#230840'></use>
-            <use xlinkHref="#gentle-wave" x={'48'} y={'3'} fill='#1a0035'></use>
+            <use xlinkHref="#gentle-wave" x={'48'} y={'3'} fill='#1a0036'></use>
           </g>
         </svg>
       </div>

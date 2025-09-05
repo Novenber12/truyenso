@@ -9,6 +9,9 @@ import Contact from './components/SectionNoFramer/Contact'
 import AboutUs from './components/AboutUs'
 import EventSection from './components/Event'
 import PostsSection from './components/PostsSection'
+import BookShelf from './components/BookShelf'
+// import TransitionReveal from './components/TransitionReveal'
+import TransitionDemo from './components/TransitionDemo'
 
 const MainForum = () => {
   return (
@@ -17,6 +20,10 @@ const MainForum = () => {
         {/* <BannerForum /> */}
         <BannerHome/>
         <Introduce/>
+        {/* <TransitionDemo/> */}
+        {/* Test bookshelf */}
+        {/* <div className='mt-[200vh]'></div> */}
+        <BookShelf/>
         <EventSection/>
         <BenefitsSection/>
         <TopDonate/>
