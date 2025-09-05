@@ -14,6 +14,11 @@ export default function BookShelf() {
   const [dragOffset, setDragOffset] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(false); // Thêm state để điều khiển animate
+  const [isScrollLocked, setIsScrollLocked] = useState(false); // Khóa scroll khi ở trang cuối
+  const [showSwipeHint, setShowSwipeHint] = useState(false); // Hiển thị gợi ý vuốt ngang
+  const [showScrollHint, setShowScrollHint] = useState(false); // Hiển thị gợi ý scroll xuống
+  const [isSnapped, setIsSnapped] = useState(false); // Section đã được snap về vị trí 0
+  const [isPermanentlyUnlocked, setIsPermanentlyUnlocked] = useState(false); // Đã unlock vĩnh viễn
   const REVEAL_DURATION_MS = 3200;
   const [sectionHeight, setSectionHeight] = useState<number | undefined>(undefined);
 
@@ -86,6 +91,15 @@ export default function BookShelf() {
           break;
       }
       setCurrentLocation(currentLocation + 1);
+      
+      // Cập nhật hint dựa trên trang hiện tại
+      if (currentLocation + 1 === maxLocation) {
+        setShowScrollHint(true);
+        setShowSwipeHint(false);
+      } else {
+        setShowSwipeHint(true);
+        setShowScrollHint(false);
+      }
     }
   };
 
@@ -108,6 +122,15 @@ export default function BookShelf() {
           break;
       }
       setCurrentLocation(currentLocation - 1);
+      
+      // Cập nhật hint khi quay lại
+      if (currentLocation - 1 === maxLocation) {
+        setShowScrollHint(true);
+        setShowSwipeHint(false);
+      } else {
+        setShowScrollHint(false);
+        setShowSwipeHint(true);
+      }
     }
   };
 
@@ -177,8 +200,37 @@ export default function BookShelf() {
     }
   }, [isDragging]);
 
+  // Khóa scroll khi ở trang cuối
+  useEffect(() => {
+    if (isScrollLocked) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isScrollLocked]);
+
+  // Cập nhật hint dựa trên trang hiện tại và tự động mở khóa khi đến trang cuối
+  useEffect(() => {
+    if (isScrollLocked && !isPermanentlyUnlocked) {
+      if (currentLocation === maxLocation) {
+        // Tự động mở khóa vĩnh viễn khi đến trang cuối (back page)
+        setIsScrollLocked(false);
+        setIsPermanentlyUnlocked(true); // Đánh dấu đã unlock vĩnh viễn
+        setShowScrollHint(true);
+        setShowSwipeHint(false);
+      } else {
+        setShowSwipeHint(true);
+        setShowScrollHint(false);
+      }
+    }
+  }, [currentLocation, isScrollLocked, maxLocation, isPermanentlyUnlocked]);
+
   // Trigger hiệu ứng animate khi scroll tới section (không chạy khi vào trang)
-  // Khi lướt tới section thì đính nó lại
+  // Khi lướt tới section thì đính nó lại và khóa scroll
   useEffect(() => {
     let hasAnimated = false;
     let hasLocked = false;
@@ -187,9 +239,41 @@ export default function BookShelf() {
     const handleCheckInView = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
+      
+      // Kiểm tra xem section có hoàn toàn nằm trong viewport không
+      // (top của section chạm tới cạnh trên màn hình)
+      const isFullyInView = rect.top <= 0 && rect.bottom > 0;
+      
+      // Kiểm tra xem section có trong viewport không (để đính lại)
       const inView = rect.top < window.innerHeight && rect.bottom > 0;
 
-      if (inView && !hasAnimated) {
+      // Chỉ thực hiện snap logic nếu chưa unlock vĩnh viễn
+      if (!isPermanentlyUnlocked) {
+        // Snap logic: Khi section gần hoặc vượt qua vị trí top = 0
+        const snapThreshold = 100; // Khoảng cách để trigger snap
+        const shouldSnap = rect.top <= snapThreshold && rect.top > -snapThreshold && rect.bottom > 0;
+
+        // Snap section về vị trí top = 0 khi cần thiết
+        if (shouldSnap && !isSnapped) {
+          // Tính toán vị trí scroll để section có rect.top = 0
+          const currentScrollY = window.scrollY;
+          const sectionRect = sectionRef.current.getBoundingClientRect();
+          const targetScrollY = currentScrollY + sectionRect.top;
+          
+          // Snap về vị trí chính xác để rect.top = 0
+          window.scrollTo({
+            top: targetScrollY,
+            behavior: 'smooth'
+          });
+          
+          setIsSnapped(true);
+          setIsScrollLocked(true); // Khóa scroll sau khi snap
+          setShowSwipeHint(true); // Hiển thị hint vuốt ngang
+        }
+      }
+
+      // Chỉ animate khi section hoàn toàn nằm trong viewport
+      if (isFullyInView && !hasAnimated) {
         setShouldAnimate(true);
         hasAnimated = true;
       }
@@ -208,6 +292,13 @@ export default function BookShelf() {
         setIsLocked(false);
         setSectionHeight(undefined);
         hasLocked = false;
+        // Reset snap state khi rời khỏi section (chỉ nếu chưa unlock vĩnh viễn)
+        if (!isPermanentlyUnlocked) {
+          setIsSnapped(false);
+          setIsScrollLocked(false);
+          setShowSwipeHint(false);
+          setShowScrollHint(false);
+        }
       }
     };
 
@@ -220,13 +311,13 @@ export default function BookShelf() {
       window.removeEventListener('scroll', handleCheckInView);
       window.removeEventListener('resize', handleCheckInView);
     };
-  }, []);
+  }, [isSnapped]);
 
   return (
     <motion.div
       ref={sectionRef}
-      className={`${isLocked ? 'sticky top-0' : 'relative'} w-full min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center overflow-hidden`}
-      style={{ zIndex: isLocked ? 9980 : undefined, willChange: "clip-path", height: sectionHeight ? `${sectionHeight}px` : undefined }}
+      className={` ${isLocked ? 'sticky top-0' : 'relative'} w-full min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center overflow-hidden`}
+      style={{ willChange: "clip-path", height: sectionHeight ? `${sectionHeight}px` : undefined }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -384,6 +475,72 @@ export default function BookShelf() {
           ))}
         </div>
       </div>
+
+      {/* Swipe Hint - Hiển thị khi cần vuốt ngang */}
+      {showSwipeHint && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50"
+        >
+          <div className="bg-black/50 backdrop-blur-sm rounded-full px-6 py-3 text-white text-sm font-medium flex items-center space-x-2">
+            <motion.div
+              animate={{ x: [-10, 10, -10] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="text-lg"
+            >
+              ↔️
+            </motion.div>
+            <span>Vuốt ngang để xem thêm</span>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Scroll Hint - Hiển thị khi có thể scroll xuống */}
+      {showScrollHint && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50"
+        >
+          <div className="bg-green-500/80 backdrop-blur-sm rounded-full px-6 py-3 text-white text-sm font-medium flex items-center space-x-2">
+            <motion.div
+              animate={{ y: [-5, 5, -5] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="text-lg"
+            >
+              ⬇️
+            </motion.div>
+            <span>Bạn có thể cuộn xuống để tiếp tục</span>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Unlock Scroll Button - Nút để mở khóa scroll */}
+      {isScrollLocked && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            setIsScrollLocked(false);
+            setShowScrollHint(false);
+            setShowSwipeHint(false);
+          }}
+          className="absolute top-8 right-8 z-50 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-3 text-white transition-all duration-300"
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="text-xl"
+          >
+            🔓
+          </motion.div>
+        </motion.button>
+      )}
     </motion.div>
   );
 }
