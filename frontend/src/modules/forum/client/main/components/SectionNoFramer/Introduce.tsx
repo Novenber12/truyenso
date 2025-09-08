@@ -10,14 +10,19 @@ const Introduce = () => {
     offset: ["start end", "end start"]
   })
 
-  // Parallax transforms for each column with different speeds
-  const column1Y = useTransform(scrollYProgress, [0, 1], [40, -20])
-  const column2Y = useTransform(scrollYProgress, [0, 1], [20, -40])
-  const column3Y = useTransform(scrollYProgress, [0, 1], [0, -60]) // Center column moves fastest
-  const column4Y = useTransform(scrollYProgress, [0, 1], [20, -40])
-  const column5Y = useTransform(scrollYProgress, [0, 1], [40, -20])
+//   Parallax cho div chữ
+const textY = useTransform(scrollYProgress, [0, 1], ["40%", "-100%"])
 
-  // Individual image parallax effects
+  // Parallax transforms for each column with different speeds
+  // Tốc độ parallax khác nhau cho từng cột
+  // Chạy theo %, giảm giá trị lại chút
+  const column1Y = useTransform(scrollYProgress, [0, 1], ["40%", "-20%"])   // chậm nhất
+  const column2Y = useTransform(scrollYProgress, [0, 1], ["40%", "-50%"])   // chậm vừa
+  const column3Y = useTransform(scrollYProgress, [0, 1], ["40%", "-90%"])  // nhanh nhất (giữa)
+  const column4Y = useTransform(scrollYProgress, [0, 1], ["40%", "-50%"])   // nhanh vừa
+  const column5Y = useTransform(scrollYProgress, [0, 1], ["40%", "-20%"])   // chậm lại
+
+  // Individual image parallax effects (giữ nguyên hoặc có thể điều chỉnh thêm nếu muốn)
   const image1Y = useTransform(scrollYProgress, [0, 1], [0, -30])
   const image2Y = useTransform(scrollYProgress, [0, 1], [0, -25])
   const image3Y = useTransform(scrollYProgress, [0, 1], [0, -35])
@@ -31,8 +36,10 @@ const Introduce = () => {
 
   return (
     <section id='introduce' ref={sectionRef} className='-mt-[calc(100vh-100px)]'>
-        <div className='max-w-7xl mx-auto px-4'>
-            <div className='text-center'>
+        <div className='max-w-7xl mx-auto px-4 mb-20'>
+            <motion.div className='text-center' 
+                style={{ y: textY }}
+            >
                 <h3 className="text-5xl font-bold bg-gradient-to-r from-[#744dd0] to-[#fe7f70] bg-clip-text text-transparent">
                     Truyenso.vn
                 </h3>
@@ -42,10 +49,10 @@ const Introduce = () => {
                 <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-2">
                     Nơi ý tưởng hóa thành sắc màu trên từng "trang giấy" mộng mơ.
                 </p>
-            </div>
+            </motion.div>
         </div>
         {/* Masonry Parallax Gallery */}
-        <div className="relative w-full mt-10 flex justify-center items-end gap-2 md:gap-4 px-2">
+        <div className="relative w-full mt-10 flex justify-center items-start gap-2 md:gap-4 px-2">
             {/* Column 1 */}
             <motion.div
                 className="flex flex-col gap-2 md:gap-4 w-1/5"

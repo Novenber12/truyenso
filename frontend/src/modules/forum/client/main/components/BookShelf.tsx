@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
+import { FaArrowCircleLeft, FaArrowCircleRight, FaLock } from "react-icons/fa";
 import { motion, useAnimation } from "framer-motion";
 import { useGlobalTransition } from "./TransitionReveal";
+import Image from "next/image";
 
 export default function BookShelf() {
   const [currentLocation, setCurrentLocation] = useState(1);
@@ -434,22 +435,21 @@ export default function BookShelf() {
                 overflow: "hidden"
               }}
             >
-              <div
-                className="absolute left-1/2 top-1/2 blur-3xl"
+              <Image
+                src={'/img/book/back_cover.webp'}
+                alt="back cover"
+                width={100}
+                height={100}
+                priority
+                draggable={false}
+                unselectable="on"
+                sizes="(max-width: 768px) 100vw, 100px"
+                quality={100}
+                className="w-full h-full object-cover select-none pointer-events-none"
                 style={{
-                  transform: "translate(-50%, -50%)",
-                  width: "194px",
-                  height: "194px",
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle, #fff 0%, #fff8 30%, #fff0 60%)",
-                  boxShadow: "0 0 32px 16px #fff8"
+                  transform: "rotateY(-180deg)",
                 }}
               />
-              <div className="relative z-10 text-center">
-                <div className="text-4xl mb-4 text-white drop-shadow-lg">📖</div>
-                <h2 className="text-2xl font-bold text-white mb-4 font-serif drop-shadow-lg">Hết</h2>
-                <p className="text-white leading-relaxed drop-shadow">Cảm ơn bạn đã đọc câu chuyện này. Mỗi trang sách là một hành trình mới...</p>
-              </div>
             </div>
           </div>
         </div>
@@ -482,16 +482,9 @@ export default function BookShelf() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50"
+          className="absolute -top-5 transform z-50 mt-10"
         >
           <div className="bg-black/50 backdrop-blur-sm rounded-full px-6 py-3 text-white text-sm font-medium flex items-center space-x-2">
-            <motion.div
-              animate={{ x: [-10, 10, -10] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="text-lg"
-            >
-              ↔️
-            </motion.div>
             <span>Vuốt ngang để xem thêm</span>
           </div>
         </motion.div>
@@ -503,16 +496,9 @@ export default function BookShelf() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50"
+          className="absolute top-5 transform z-50"
         >
           <div className="bg-green-500/80 backdrop-blur-sm rounded-full px-6 py-3 text-white text-sm font-medium flex items-center space-x-2">
-            <motion.div
-              animate={{ y: [-5, 5, -5] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="text-lg"
-            >
-              ⬇️
-            </motion.div>
             <span>Bạn có thể cuộn xuống để tiếp tục</span>
           </div>
         </motion.div>
@@ -533,11 +519,9 @@ export default function BookShelf() {
           className="absolute top-8 right-8 z-50 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-3 text-white transition-all duration-300"
         >
           <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             className="text-xl"
           >
-            🔓
+            <FaLock/>
           </motion.div>
         </motion.button>
       )}
